@@ -216,8 +216,6 @@ gsl_dep = dependency('gsl', version: '>=1.16')
 # libsoda_dep = declare_dependency(include_directories: 'external/libsoda',
 #                                  link_with: libsoda)
 
-nanobind_dep = dependency('nanobind')
-
 subdir(join_paths('external', 'libsoda'))
 subdir(join_paths('external', 'fmt'))
 if is_msvc

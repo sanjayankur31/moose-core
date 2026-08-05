@@ -9,12 +9,27 @@ pymoose_src = [
   'pymoose.cpp',
 ]
 
-python_res = run_command('python', '-c', 'from sysconfig import get_paths as gp; print(gp()["include"])', check: false)
-if python_res.returncode() == 0
-  inc_dirs = python_res.stdout().strip()
-else
-  message('ERROR: could not find Python include directory')
-  inc_dirs = []
-endif
+python_inc = py.get_path('include')
 
-pymoose_lib = static_library('pymoose', pymoose_src, dependencies: nanobind_dep, include_directories: inc_dirs)
+nanobind_dir = py.get_path('purelib') / 'nanobind'
+nanobind_src = [
+  nanobind_dir / 'src' / 'nb_internals.cpp',
+  nanobind_dir / 'src' / 'nb_func.cpp',
+  nanobind_dir / 'src' / 'nb_type.cpp',
+  nanobind_dir / 'src' / 'nb_enum.cpp',
+  nanobind_dir / 'src' / 'nb_ndarray.cpp',
+  nanobind_dir / 'src' / 'nb_static_property.cpp',
+  nanobind_dir / 'src' / 'common.cpp',
+  nanobind_dir / 'src' / 'error.cpp',
+  nanobind_dir / 'src' / 'trampoline.cpp',
+  nanobind_dir / 'src' / 'implicit.cpp',
+]
+
+inc_dirs = [
+  python_inc,
+  nanobind_dir / 'include',
+]
+
+pymoose_lib = static_library('pymoose', pymoose_src + nanobind_src,
+  include_directories: inc_dirs,
+  cpp_args: '-fno-strict-aliasing')
