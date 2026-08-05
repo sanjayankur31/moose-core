@@ -30,11 +30,10 @@ builtins_src = ['Arith.cpp',
 if host_machine.system() != 'windows'
   builtins_src += files(['SocketStreamer.cpp'])
 endif
-include_directories = ['../external/fmt/include']
 
 if use_hdf5
-  builtins_lib = static_library('builtins', builtins_src, include_directories: include_directories, dependencies: hdf5_dep)
+  builtins_lib = static_library('builtins', builtins_src, dependencies: hdf5_dep)
 else
-  builtins_lib = static_library('builtins', builtins_src, include_directories: include_directories)
+  builtins_lib = static_library('builtins', builtins_src)
 endif
 

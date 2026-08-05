@@ -209,6 +209,9 @@ endif
 # GSL is required
 gsl_dep = dependency('gsl', version: '>=1.16')
 
+# Use the system fmt library instead of the bundled copy in external/fmt
+fmt_dep = dependency('fmt')
+
 
 # libsoda = static_library('lsoda', 'external/libsoda/LSODA.cpp',
 #                           include_directories: 'external/libsoda',
@@ -217,7 +220,6 @@ gsl_dep = dependency('gsl', version: '>=1.16')
 #                                  link_with: libsoda)
 
 subdir(join_paths('external', 'libsoda'))
-subdir(join_paths('external', 'fmt'))
 if is_msvc
   subdir(join_paths('external', 'getopt'))
 endif
@@ -246,7 +248,6 @@ subdir('utility')
 
 sublibs = [
     lsoda_lib,
-    fmt_lib,
     basecode_lib,
     biophysics_lib,
     builtins_lib,
@@ -300,7 +301,7 @@ endif
 pymoose = py.extension_module('_moose',
                               link_whole: sublibs,
                               link_args: link_args,
-                              dependencies: [gsl_dep, mpi_dep, hdf5_dep], #, libsoda_dep],
+                              dependencies: [gsl_dep, mpi_dep, hdf5_dep, fmt_dep], #, libsoda_dep],
                               include_directories: include_dirs,
                               install: true,
                               subdir: 'moose')

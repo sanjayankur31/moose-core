@@ -32,4 +32,5 @@ inc_dirs = [
 
 pymoose_lib = static_library('pymoose', pymoose_src + nanobind_src,
   include_directories: inc_dirs,
+  dependencies: fmt_dep,
   cpp_args: '-fno-strict-aliasing')

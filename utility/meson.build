@@ -11,4 +11,4 @@ utility_src = ['strutil.cpp',
                'cnpy.cpp'
                ]
 
-utility_lib = static_library('utility', utility_src)
+utility_lib = static_library('utility', utility_src, dependencies: fmt_dep)
